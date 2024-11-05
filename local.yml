@@ -14,11 +14,22 @@
     ansible.builtin.apt:
       name: qemu-guest-agent
       state: present
-    when: vendor.stdout.find('Proxmox') != -1 and ansible_facts['distribution'] == "Ubuntu"
+    when: vendor.stdout.find('Proxmox') != -1 and ansible_facts['os_family'] == "Debian"
 
   - name: Start & Enable qemu-guest-agent if its a Proxmox VM and distribution is Ubuntu
     ansible.builtin.service:
       name: qemu-guest-agent
       enabled: true
       state: started
-    when: vendor.stdout.find('Proxmox') != -1 and ansible_facts['distribution'] == "Ubuntu"
+    when: vendor.stdout.find('Proxmox') != -1 and ansible_facts['os_family'] == "Debian"
+
+  - name: Check whether a package called grype is installed
+    ansible.builtin.debug:
+      msg: "{{ ansible_facts.packages['grype'] | length }} versions of grype are installed!"
+    when: "'grype' in ansible_facts.packages"
+
+  - name: Download and the Grype .deb package if its a Debian based distribution, and its not already installed.
+    ansible.builtin.get_url:
+      url: https://github.com/anchore/grype/releases/download/v0.84.0/grype_0.84.0_linux_amd64.deb
+      dest: /tmp/grype_0.84.0_linux_amd64.deb
+    when: "'grype' not in ansible_facts.packages"
