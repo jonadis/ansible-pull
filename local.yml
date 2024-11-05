@@ -1,0 +1,15 @@
+---
+- name: local.yml
+  become: true
+  hosts: all
+  gather_facts: true
+
+  tasks:
+  - name: Grab the Vendor from dmidecode
+    ansible.builtin.shell: 'dmidecode | grep Vendor'
+    register: vendor
+    ignore_errors: true
+
+  - name: Install qemu-guest-agent if its a Proxmox VM and distribution is Ubuntu
+    ansible.some.module:
+    when: vendor.stdout.find('Proxmox') != -1 and ansible_facts['distribution'] == "Debian"
