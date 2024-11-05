@@ -10,6 +10,10 @@
     register: vendor
     ignore_errors: true
 
+  - name: Just print the value of vendor
+    ansible.builtin.debug:
+      msg: {{ vendor }}
+      
   - name: Install qemu-guest-agent if its a Proxmox VM and distribution is Ubuntu
     ansible.builtin.apt:
       name: qemu-guest-agent
