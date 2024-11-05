@@ -18,4 +18,4 @@
     ansible.builtin.apt:
       name: qemu-guest-agent
       state: present
-    when: vendor.stdout.find('Proxmox') != -1 and ansible_facts['distribution'] == "Debian"
+    when: vendor.stdout.find('Proxmox') != -1 and ansible_facts['distribution'] == "Ubuntu"
