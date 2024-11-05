@@ -11,5 +11,7 @@
     ignore_errors: true
 
   - name: Install qemu-guest-agent if its a Proxmox VM and distribution is Ubuntu
-    ansible.some.module:
+    ansible.builtin.apt:
+      name: qemu-guest-agent
+      state: present
     when: vendor.stdout.find('Proxmox') != -1 and ansible_facts['distribution'] == "Debian"
