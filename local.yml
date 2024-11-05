@@ -12,7 +12,7 @@
 
   - name: Just print the value of vendor
     ansible.builtin.debug:
-      msg: {{ vendor }}
+      msg: {{ vendor.stdout }}
       
   - name: Install qemu-guest-agent if its a Proxmox VM and distribution is Ubuntu
     ansible.builtin.apt:
