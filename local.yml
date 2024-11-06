@@ -9,23 +9,22 @@
     ansible.builtin.shell: 'dmidecode | grep Vendor'
     register: vendor
     ignore_errors: true
-   
-  - name: Call the qemu-guest-agent role if its a Proxmox VM
-    include_role:
-      name: qemu-guest-agent
-    when: vendor.stdout.find('Proxmox') != -1
 
   - name: Gather the package facts
     ansible.builtin.package_facts:
       manager: auto
 
-  - name: Check whether a package called grype is installed
-    ansible.builtin.debug:
-      msg: "{{ ansible_facts.packages['grype'] | length }} versions of grype are installed!"
-    when: "'grype' in ansible_facts.packages"
-
-  - name: Download and the Grype .deb package if its a Debian based distribution, and its not already installed.
-    ansible.builtin.get_url:
-      url: https://github.com/anchore/grype/releases/download/v0.84.0/grype_0.84.0_linux_amd64.deb
-      dest: /tmp/grype_0.84.0_linux_amd64.deb
+  - name: Call the grype role if grype is not already installed
+    include_role:
+      name: grype
     when: "'grype' not in ansible_facts.packages"
+
+  - name: Call the qemu-guest-agent role if its a Proxmox VM
+    include_role:
+      name: qemu-guest-agent
+    when: vendor.stdout.find('Proxmox') != -1
+
+  - name: Call the syft role if syft is not already installed
+    include_role:
+      name: syft
+    when: "'syft' not in ansible_facts.packages"

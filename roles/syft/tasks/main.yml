@@ -1,0 +1,13 @@
+---
+# tasks file for syft
+  - name: Download and the Syft .deb package if its a Debian based distribution
+    ansible.builtin.get_url:
+      url: https://github.com/anchore/syft/releases/download/v1.16.0/syft_1.16.0_linux_amd64.deb
+      dest: /tmp/syft_1.16.0_linux_amd64.deb
+    when: ansible_facts['os_family'] == "Debian"
+
+  - name: Download and the Syft .deb package if its a RedHat based distribution
+    ansible.builtin.get_url:
+      url: https://github.com/anchore/syft/releases/download/v1.16.0/syft_1.16.0_linux_amd64.rpm
+      dest: /tmp/syft_1.16.0_linux_amd64.rpm
+    when: ansible_facts['os_family'] == "RedHat"
