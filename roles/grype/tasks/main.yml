@@ -6,7 +6,7 @@
       dest: "/tmp/grype_{{ version }}_linux_amd64.deb"
     when: ansible_facts['os_family'] == "Debian"
 
-  - name: Download and the Grype .deb package if its a RedHat based distribution
+  - name: Download and the Grype .rpm package if its a RedHat based distribution
     ansible.builtin.get_url:
       url: "https://github.com/anchore/grype/releases/download/v{{ version }}/grype_{{ version }}_linux_amd64.rpm"
       dest: "/tmp/grype_{{ version }}_linux_amd64.rpm"
