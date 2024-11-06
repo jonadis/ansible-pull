@@ -11,8 +11,8 @@
     ignore_errors: true
    
   - name: Call the qemu-guest-agent role if its a Proxmox VM
-      include_role:
-        name: qemu-guest-agent
+    include_role:
+      name: qemu-guest-agent
     when: vendor.stdout.find('Proxmox') != -1
 
   - name: Gather the package facts
