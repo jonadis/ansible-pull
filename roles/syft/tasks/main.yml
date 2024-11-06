@@ -11,3 +11,15 @@
       url: https://github.com/anchore/syft/releases/download/v1.16.0/syft_1.16.0_linux_amd64.rpm
       dest: /tmp/syft_1.16.0_linux_amd64.rpm
     when: ansible_facts['os_family'] == "RedHat"
+
+  - name: Install syft when OS Family is Debian
+    ansible.builtin.apt:
+      deb: /tmp/syft_1.16.0_linux_amd64.deb
+      state: present
+    when: ansible_facts['os_family'] == "Debian"
+
+  - name: Install syft when OS Family is RedHat
+    ansible.builtin.dnf:
+      name: /tmp/syft_1.16.0_linux_amd64.rpm
+      state: present
+    when: ansible_facts['os_family'] == "RedHat"
