@@ -6,6 +6,12 @@
       state: present
     when: ansible_facts['os_family'] == "Debian"
 
+  - name: Install qemu-guest-agent when OS Family is RedHat
+    ansible.builtin.dnf:
+      name: qemu-guest-agent
+      state: present
+    when: ansible_facts['os_family'] == "RedHat"
+
   - name: Start & Enable qemu-guest-agent
     ansible.builtin.service:
       name: qemu-guest-agent
