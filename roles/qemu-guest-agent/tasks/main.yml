@@ -1,2 +1,13 @@
 ---
 # tasks file for qemu-guest-agent
+  - name: Install qemu-guest-agent when OS Family is Debian
+    ansible.builtin.apt:
+      name: qemu-guest-agent
+      state: present
+    when: ansible_facts['os_family'] == "Debian"
+
+  - name: Start & Enable qemu-guest-agent
+    ansible.builtin.service:
+      name: qemu-guest-agent
+      enabled: true
+      state: started
