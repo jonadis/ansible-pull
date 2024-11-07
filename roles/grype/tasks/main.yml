@@ -10,7 +10,9 @@
     ansible.builtin.get_url:
       url: "https://github.com/anchore/grype/releases/download/v{{ version }}/grype_{{ version }}_linux_amd64.rpm"
       dest: "/tmp/grype_{{ version }}_linux_amd64.rpm"
-    when: ansible_facts['os_family'] == "RedHat" and ansible_facts['distribution'] != "Fedora"
+    when: 
+      - ansible_facts['os_family'] == "RedHat"
+      - ansible_facts['distribution'] != "Fedora"
 
   - name: Install grype when OS Family is Debian
     ansible.builtin.apt:
