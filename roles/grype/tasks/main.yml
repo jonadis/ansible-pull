@@ -24,4 +24,6 @@
     ansible.builtin.dnf:
       name: "/tmp/grype_{{ version }}_linux_amd64.rpm"
       state: present
-    when: ansible_facts['os_family'] == "RedHat"
+    when: 
+      - ansible_facts['os_family'] == "RedHat"
+      - ansible_facts['distribution'] != "Fedora"
