@@ -5,11 +5,6 @@
   gather_facts: true
 
   tasks:
-  - name: Grab the Vendor from dmidecode
-    ansible.builtin.shell: 'dmidecode | grep Vendor'
-    register: vendor
-    ignore_errors: true
-
   - name: Gather the package facts
     ansible.builtin.package_facts:
       manager: auto
@@ -22,7 +17,7 @@
   - name: Call the qemu-guest-agent role if its a Proxmox VM
     include_role:
       name: qemu-guest-agent
-    when: vendor.stdout.find('Proxmox') != -1
+    when: ansible_system_vendor == "QEMU"
 
   - name: Call the syft role if syft is not already installed
     include_role:
