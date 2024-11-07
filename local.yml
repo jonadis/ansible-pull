@@ -19,7 +19,7 @@
       name: qemu-guest-agent
     when: 
       - ansible_system_vendor == "QEMU"
-      - 'qemu-guest-agent' not in ansible_facts.packages
+      - "'qemu-guest-agent' not in ansible_facts.packages"
 
   - name: Call the syft role if syft is not already installed
     include_role:
