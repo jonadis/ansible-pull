@@ -6,11 +6,13 @@
       dest: "/tmp/syft_{{ version }}_linux_amd64.deb"
     when: ansible_facts['os_family'] == "Debian"
 
-  - name: Download and the Syft .rpm package if its a RedHat based distribution
+  - name: Download and the Syft .rpm package if its a RedHat based distribution, but not Fedora
     ansible.builtin.get_url:
       url: "https://github.com/anchore/syft/releases/download/v{{ version }}/syft_{{ version }}_linux_amd64.rpm"
       dest: "/tmp/syft_{{ version }}_linux_amd64.rpm"
-    when: ansible_facts['os_family'] == "RedHat" and ansible_facts['distribution'] != "Fedora"
+    when: 
+      - ansible_facts['os_family'] == "RedHat"
+      - ansible_facts['distribution'] != "Fedora"
 
   - name: Install syft when OS Family is Debian
     ansible.builtin.apt:
@@ -18,8 +20,10 @@
       state: present
     when: ansible_facts['os_family'] == "Debian"
 
-  - name: Install syft when OS Family is RedHat
+  - name: Install syft when OS Family is RedHat, but not Fedora
     ansible.builtin.dnf:
       name: "/tmp/syft_{{ version }}_linux_amd64.rpm"
       state: present
-    when: ansible_facts['os_family'] == "RedHat"
+    when: 
+      - ansible_facts['os_family'] == "RedHat"
+      - ansible_facts['distribution'] != "Fedora"

@@ -14,14 +14,12 @@
       name: grype
     when: "'grype' not in ansible_facts.packages"
 
-  - name: Just print the ansible_system_vendor
-    debug:
-      msg: "{{ ansible_system_vendor }}"
-      
-  - name: Call the qemu-guest-agent role if its a Proxmox VM
+  - name: Call the qemu-guest-agent role if its a Proxmox VM and it's not already installed
     include_role:
       name: qemu-guest-agent
-    when: ansible_system_vendor == "QEMU"
+    when: 
+      - ansible_system_vendor == "QEMU"
+      - 'qemu-guest-agent' not in ansible_facts.packages
 
   - name: Call the syft role if syft is not already installed
     include_role:
