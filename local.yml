@@ -9,6 +9,11 @@
     ansible.builtin.package_facts:
       manager: auto
 
+  - name: Call the grafana-agent-flow role if grafana-agent-flow is not already installed
+    include_role:
+      name: grafana-agent-flow
+    when: "'grafana-agent-flow' not in ansible_facts.packages"
+
   - name: Call the grype role if grype is not already installed
     include_role:
       name: grype
