@@ -29,9 +29,9 @@
       src: grafana-agent-flow.river.j2
       dest: /etc/grafana-agent-flow.river
       owner: grafana-agent-flow
-      group: grafana-agent-flow
+      group: grafana-agent
       mode: '0640'
-      
+
   - name: Restart Grafana Agent Flow Service
     ansible.builtin.service:
       name: grafana-agent-flow
