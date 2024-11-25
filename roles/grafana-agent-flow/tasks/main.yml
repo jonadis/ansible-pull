@@ -38,6 +38,14 @@
       path: /etc/default/grafana-agent-flow
       regexp: '^CUSTOM_ARGS='
       line: 'CUSTOM_ARGS="--server.http.listen-addr=0.0.0.0:12345"'
+    when: ansible_facts['os_family'] == "Debian"
+
+  - name: Adjust /etc/sysconfig/grafana-agent-flow to listen on 0.0.0.0
+    ansible.builtin.lineinfile:
+      path: /etc/sysconfig/grafana-agent-flow
+      regexp: '^CUSTOM_ARGS='
+      line: 'CUSTOM_ARGS="--server.http.listen-addr=0.0.0.0:12345"'
+    when: ansible_facts['os_family'] == "RedHat"
 
   - name: Restart Grafana Agent Flow Service
     ansible.builtin.service:
